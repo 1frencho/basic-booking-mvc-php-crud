@@ -1,0 +1,19 @@
+{
+  "name": "anima/booking-crud-php",
+  "description": "Booking CRUD - PHP - Task assigned from Kodigo Academy",
+  "type": "project",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "frencho",
+      "email": "preadrianrodriguez@gmail.com"
+    }
+  ],
+  "minimum-stability": "alpha",
+  "require": {}
+}
