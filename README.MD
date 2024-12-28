@@ -28,25 +28,35 @@ C:/laragon/www/booking-crud-php
 C:/xampp/htdocs/booking-crud-php
 ```
 
-3. Instalar dependencias con Composer
+3. Instalar dependencias y paquetes
 
 ```
 composer install
+```
+
+```
+npm install
 ```
 
 4. Importar la base de datos
 
 5. Ejecutar el servidor web y dirigirse a:
 
-````
+```
 http://localhost/booking-crud-php/public/
 ```
 
+Si se utiliza php directamente se puede probar con el siguiente comando:
 
-Si se utiliza php, entonces habría que modificar el htaccess para que no sobrescriba toda la ruta, (booking-crud-php)
 ```
-php -S localhost:8000
+php -S localhost:8000 -t public/
 ```
 
-6.
-````
+6. Habilitar Tailwind CSS en modo de desarrollo
+
+```
+npm run tailwind
+
+```
+
+7. Pendiente de delimitar para hacer el build de la aplicación y subirlo a un hosting con la carpeta publica.

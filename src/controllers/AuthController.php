@@ -4,34 +4,49 @@ namespace App\Controllers;
 
 use App\Models\User;
 
-class AuthController
+class AuthController extends BaseController
 {
-  private $userModel;
-
-  public function __construct()
+  // ---------------------------- VIEWS ------------------------------------------
+  public function showSignIn()
   {
-    $this->userModel = new User();
+    $layoutData = [
+      'title' => 'Sign In',
+      'meta' => '<meta name="description" content="Log into your account">',
+      // 'styles' => '<link rel="stylesheet" href="assets/css/output.css"/>',
+      // 'scripts' => '<script src="scripts/home.js"></script>',
+    ];
+    $this->render('auth/signIn', $layoutData);
   }
-
-  public function showLogin()
+  public function showSignUp()
   {
-    require_once __DIR__ . '/../views/auth/login.php';
+    $layoutData = [
+      'title' => 'Sign Up',
+      'meta' => '<meta name="description" content="Sign up for your account">',
+    ];
+    $this->render('auth/signUp', $layoutData);
   }
-
-  public function login()
+  // ---------------------------- REQUESTS --------------------------------------
+  public function handleSignUp()
   {
+    // Verifica que el método sea POST
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+      header('Location: signUp');
+      exit;
+    }
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-      $email = $_POST['email'] ?? '';
-      $password = $_POST['password'] ?? '';
+      $email = htmlspecialchars(trim($_POST['email']));
+      $password = htmlspecialchars(trim($_POST['password']));
+      $firstName = htmlspecialchars(trim($_POST['firstName']));
+      $lastName = htmlspecialchars(trim($_POST['lastName']));
+      $phoneNumber = htmlspecialchars(trim($_POST['phoneNumber']));
 
-      $user = $this->userModel->findByEmail($email);
-      if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['user_id'] = $user['id'];
-        header('Location: /dashboard');
+      $userId = User::create($email, $password, $firstName, $lastName, $phoneNumber);
+      if (!$userId) {
+        header('Location: ?error=true');
         exit;
       }
-
-      header('Location: /login');
+      header('Location: ?success=true&id=' . $userId);
       exit;
     }
   }

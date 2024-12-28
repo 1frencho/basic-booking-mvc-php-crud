@@ -2,38 +2,59 @@
 
 namespace App\Models;
 
-use App\Config\Database;
+use App\Config\DBConnection;
 
 class User
 {
-  private $conn;
-  private $table = 'users';
+  private static $table = 'account_details';
+  private static $userDetailsTable = 'user_details';
+  private static $defaultRole = 'User';
 
-  public function __construct()
+  public static function findByEmail($email)
   {
-    $db = new Database();
-    $this->conn = $db->getConnection();
-  }
-
-  public function findByEmail($email)
-  {
-    $query = "SELECT * FROM " . $this->table . " WHERE email = :email LIMIT 1";
-    $stmt = $this->conn->prepare($query);
+    $conn = DBConnection::connect();
+    $query = "SELECT ad.id,
+    ad.email,
+    ad.role,
+    ad.created_at,
+    ud.first_name,
+    ud.last_name,
+    ud.phone_number FROM " . self::$table . " ad 
+    INNER JOIN " . self::$userDetailsTable . " ud
+    on ad.id = ud.id_user"
+      . " WHERE ad.email = :email LIMIT 1";
+    $stmt = $conn->prepare($query);
     $stmt->bindParam(':email', $email);
     $stmt->execute();
 
     return $stmt->fetch(\PDO::FETCH_ASSOC);
   }
 
-  public function create($data)
+  // public function create($data)
+  public static function create($email, $password, $firstName, $lastName, $phoneNumber)
   {
-    $query = "INSERT INTO " . $this->table . " (email, password, created_at) 
-                 VALUES (:email, :password, NOW())";
+    $conn = DBConnection::connect();
+    // Crear datos de autenticación para el usuario
+    $query = "INSERT INTO " . self::$table . " (email, password, role, created_at) VALUES (:email, :password, :role, NOW())";
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(':email', $email);
+    $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+    $stmt->bindParam(':password', $hashedPassword);
+    $stmt->bindParam(':role', self::$defaultRole);
+    $stmt->execute();
+    $userId = $conn->lastInsertId();
 
-    $stmt = $this->conn->prepare($query);
-    $stmt->bindParam(':email', $data['email']);
-    $stmt->bindParam(':password', password_hash($data['password'], PASSWORD_DEFAULT));
+    // Insertar datos de usuario
+    $query = "INSERT INTO " . self::$userDetailsTable
+      . " (id_user, first_name, last_name, phone_number) 
+    VALUES (:id_user, :first_name, :last_name, :phone_number)";
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(':id_user', $userId);
+    $stmt->bindParam(':first_name', $firstName);
+    $stmt->bindParam(':last_name', $lastName);
+    $stmt->bindParam(':phone_number', $phoneNumber);
+    $stmt->execute();
 
-    return $stmt->execute();
+    return $userId;
   }
 }

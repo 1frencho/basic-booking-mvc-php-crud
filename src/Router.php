@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Dotenv\Dotenv;
+
 class Router
 {
   private array $routes = [];
@@ -10,8 +12,12 @@ class Router
 
   public function __construct()
   {
-    // Detectar el subdirectorio base
-    $this->basePath = '/booking-crud-php/public';
+    // Cargar variables de entorno
+    $dotenv = Dotenv::createImmutable(__DIR__ . '/..');
+    $dotenv->load();
+
+    // Detectar el subdirectorio base desde las variables de entorno
+    $this->basePath = $_ENV['BASE_PATH'] ?? '/';
   }
 
   public function get($path, $callback, $middleware = [])
@@ -48,21 +54,32 @@ class Router
     $path = $this->getPath();
     $method = $_SERVER['REQUEST_METHOD'];
 
-    // Debug para ayudar a identificar problemas
-    // error_log("Path: " . $path);
-    // error_log("Method: " . $method);
-    // error_log("Available routes: " . print_r($this->routes, true));
-
     $callback = $this->routes[$method][$path] ?? null;
     $middleware = $this->middlewares[$method][$path] ?? [];
 
     if ($callback === null) {
       http_response_code(404);
-      require_once __DIR__ . '/Views/404.php';
+
+      // Usar layout principal para renderizar la vista 404
+      $viewPath = __DIR__ . '/views/404.php';
+      $layoutPath = __DIR__ . '/views/layouts/main.php';
+
+      if (file_exists($viewPath) && file_exists($layoutPath)) {
+        // Generar contenido desde la vista
+        ob_start();
+        require $viewPath;
+        $content = ob_get_clean();
+
+        // Incluir el layout principal
+        require $layoutPath;
+      } else {
+        // En caso de que falten archivos, renderizar un mensaje básico
+        echo "404 - Página no encontrada.";
+      }
       return;
     }
 
-    // Execute middleware
+    // Ejecutar middlewares
     foreach ($middleware as $middlewareClass) {
       $middlewareInstance = new $middlewareClass();
       if (!$middlewareInstance->handle()) {
@@ -70,7 +87,7 @@ class Router
       }
     }
 
-    // Execute controller method
+    // Ejecutar controlador o callback
     if (is_array($callback)) {
       $controller = new $callback[0]();
       $method = $callback[1];
