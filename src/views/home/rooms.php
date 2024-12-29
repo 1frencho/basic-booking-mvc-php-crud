@@ -21,8 +21,8 @@ $rooms = Room::getAllPublic();
       <button class="hover:shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out">
         <div
           class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70 ">
-          <img class="w-full h-auto rounded-t-xl" src="<?php echo htmlspecialchars($room['image_url']); ?>"
-            alt="Card Image">
+          <img class="w-full h-[200px] object-cover rounded-t-xl"
+            src="<?php echo htmlspecialchars($room['image_url']); ?>" alt="Card Image">
           <div class="p-4 md:p-5">
             <h3 class="text-lg font-bold text-gray-800 dark:text-white">
               <?php echo htmlspecialchars($room['name']); ?>

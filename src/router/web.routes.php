@@ -42,7 +42,9 @@ $router->post('/signUp', [AuthController::class, 'handleSignUp']);
 $router->post('/signIn', [AuthController::class, 'handleSignIn']);
 $router->get('/signOut', [AuthController::class, 'signOut']);
 
-$router->post('/addRoom', [RoomController::class, 'addRoom'], [AuthMiddleware::class, 'handleAdmin']);
+$router->post('/addRoom', [RoomController::class, 'addRoom'], [[AuthMiddleware::class, 'handleAdmin']]);
+$router->post('/updateRoom', [RoomController::class, 'updateRoom'], [[AuthMiddleware::class, 'handleAdmin']]);
+
 
 // ---------------------------- API PÚBLICA - OPCIONAL -----------------------------------
 // -- Debería de aplicarse en el futuro: CORS - Token de acceso, para que sea privada...

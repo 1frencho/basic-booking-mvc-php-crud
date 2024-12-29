@@ -31,16 +31,17 @@ class Room
     return $stmt->fetchAll(\PDO::FETCH_ASSOC);
   }
 
-  public static function create($name, $description, $image_url, $room_status, $price_per_night)
+  public static function create($name, $description, $image_url, $room_status, $price_per_night, $id_admin_creator)
   {
     $conn = DBConnection::connect();
-    $query = "INSERT INTO " . self::$table . " (name, description, image_url, room_status, price_per_night) VALUES (:name, :description, :image_url, :room_status, :price_per_night)";
+    $query = "INSERT INTO " . self::$table . " (name, description, image_url, room_status, price_per_night, id_admin_creator) VALUES (:name, :description, :image_url, :room_status, :price_per_night, :id_admin_creator)";
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':name', $name);
     $stmt->bindParam(':description', $description);
     $stmt->bindParam(':image_url', $image_url);
     $stmt->bindParam(':room_status', $room_status);
     $stmt->bindParam(':price_per_night', $price_per_night);
+    $stmt->bindParam(':id_admin_creator', $id_admin_creator);
     $stmt->execute();
     return $conn->lastInsertId();
   }
@@ -64,5 +65,19 @@ class Room
     $stmt->execute();
 
     return $stmt->fetch(\PDO::FETCH_ASSOC);
+  }
+
+  public static function update($id, $name, $description, $image_url, $room_status, $price_per_night)
+  {
+    $conn = DBConnection::connect();
+    $query = "UPDATE " . self::$table . " SET name = :name, description = :description, image_url = :image_url, room_status = :room_status, price_per_night = :price_per_night WHERE id = :id";
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(':name', $name);
+    $stmt->bindParam(':description', $description);
+    $stmt->bindParam(':image_url', $image_url);
+    $stmt->bindParam(':room_status', $room_status);
+    $stmt->bindParam(':price_per_night', $price_per_night);
+    $stmt->bindParam(':id', $id);
+    $stmt->execute();
   }
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 29, 2024 at 02:36 AM
+-- Generation Time: Dec 29, 2024 at 07:34 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `booking-crud`
 --
-CREATE DATABASE IF NOT EXISTS `booking-crud` DEFAULT CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci;
+CREATE DATABASE IF NOT EXISTS `booking-crud` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci;
 USE `booking-crud`;
 
 -- --------------------------------------------------------
@@ -36,16 +36,7 @@ CREATE TABLE IF NOT EXISTS `account_details` (
   `role` enum('Admin','User') COLLATE utf8mb3_spanish_ci NOT NULL DEFAULT 'User',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
-
---
--- Dumping data for table `account_details`
---
-
-INSERT INTO `account_details` (`id`, `email`, `password`, `role`, `created_at`) VALUES
-(8, 'frenchoDev@gmail.com', '$2y$10$yfTBSE/SsPANiCVWik3Gh.niLvpO7gC3DO9wj8JWD10hnie6K8ZMu', 'Admin', '2024-12-28 20:34:35'),
-(9, 'hola@gmail.com', '$2y$10$tA3d5Az4mgAREdGDzIf6eOsvs9XFpt/zNtZVxFtD9UThCN5yhiftS', 'User', '2024-12-28 20:39:10'),
-(10, 'olapopa@gmail.com', '$2y$10$iPdeBS8SdqDX9txCmJikvOcqg1ZRqK/iv3WzQNMUVjOgPHA8Y3s8u', 'User', '2024-12-28 20:46:34');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -78,18 +69,12 @@ CREATE TABLE IF NOT EXISTS `rooms` (
   `description` varchar(300) COLLATE utf8mb3_spanish_ci NOT NULL,
   `image_url` varchar(255) COLLATE utf8mb3_spanish_ci NOT NULL,
   `room_status` enum('hidden','public') COLLATE utf8mb3_spanish_ci NOT NULL DEFAULT 'hidden',
+  `price_per_night` decimal(10,0) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `id_admin_creator` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_admin_creator` (`id_admin_creator`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
-
---
--- Dumping data for table `rooms`
---
-
-INSERT INTO `rooms` (`id`, `name`, `description`, `image_url`, `room_status`, `created_at`, `id_admin_creator`) VALUES
-(1, 'Hotel Loca', 'Sisisisisisisisiisisis', 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2c/b0/c1/4c/boutique-hotels.jpg?w=1200&h=-1&s=1', 'public', '2024-12-29 00:51:46', 8);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -105,16 +90,7 @@ CREATE TABLE IF NOT EXISTS `user_details` (
   `id_user` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_user` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
-
---
--- Dumping data for table `user_details`
---
-
-INSERT INTO `user_details` (`id`, `first_name`, `last_name`, `phone_number`, `id_user`) VALUES
-(7, 'Marcos', 'Alfaro', '18923719', 8),
-(8, 'sjdiuajsd', 'jiodjaoisd', '12637812', 9),
-(9, 'POPA', 'RODRÍGUEZ', '12783612', 10);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
 
 --
 -- Constraints for dumped tables

@@ -43,7 +43,7 @@ class RoomController extends BaseController
   public function addRoom()
   {
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-      header('Location: signUp');
+      header('Location: adminRoomManager');
       exit;
     }
 
@@ -55,19 +55,56 @@ class RoomController extends BaseController
 
     if (empty($name) || empty($description) || empty($image_url) || empty($room_status) || empty($price_per_night)) {
       $_SESSION['error'] = 'All fields are required.';
-      header('Location: signUp');
+      header('Location: adminRoomManager');
       exit;
     }
 
 
+    $roomId = Room::create($name, $description, $image_url, $room_status, $price_per_night, $_SESSION['user']['id']);
+    if (!$roomId) {
+      $_SESSION['error'] = 'Error creating room.';
+      header('Location: adminRoomManager');
+      exit;
+    }
+    $_SESSION['successMessage'] = 'Room successfully created.';
+    header('Location: adminRoomManager');
+
+    exit;
+  }
+
+  public function updateRoom()
+  {
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+      header('Location: adminRoomManager');
+      exit;
+    }
+
+    $name = htmlspecialchars(trim($_POST['name']));
+    $description = htmlspecialchars(trim($_POST['description']));
+    $image_url = htmlspecialchars(trim($_POST['image_url']));
+    $room_status = htmlspecialchars(trim($_POST['room_status']));
+    $price_per_night = htmlspecialchars(trim($_POST['price_per_night']));
+
+    if (empty($name) || empty($description) || empty($image_url) || empty($room_status) || empty($price_per_night)) {
+      $_SESSION['error'] = 'All fields are required.';
+      header('Location: adminRoomManager');
+      exit;
+    }
+
     try {
-      $roomId = Room::create($name, $description, $image_url, $room_status, $price_per_night);
+      $roomId = Room::getById($_POST['id']);
       if (!$roomId) {
-        $_SESSION['error'] = 'Error creating room.';
+        $_SESSION['error'] = 'Room not found.';
         header('Location: adminRoomManager');
         exit;
       }
-      $_SESSION['successMessage'] = 'Room successfully created.';
+      $roomId = Room::update($_POST['id'], $name, $description, $image_url, $room_status, $price_per_night);
+      if (!$roomId) {
+        $_SESSION['error'] = 'Error updating room.';
+        header('Location: adminRoomManager');
+        exit;
+      }
+      $_SESSION['successMessage'] = 'Room successfully updated.';
       header('Location: adminRoomManager');
     } catch (\Throwable $th) {
       throw $th->getMessage();
