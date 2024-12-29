@@ -31,6 +31,24 @@ class User
     return $stmt->fetch(\PDO::FETCH_ASSOC);
   }
 
+  public static function getAll()
+  {
+    $conn = DBConnection::connect();
+    $query = "SELECT ad.id,
+    ad.email,
+    ad.role,
+    ad.created_at,
+    ud.first_name,
+    ud.last_name,
+    ud.phone_number FROM " . self::$table . " ad 
+    INNER JOIN " . self::$userDetailsTable . " ud
+    on ad.id = ud.id_user";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+  }
+
   // public function create($data)
   public static function create($email, $password, $firstName, $lastName, $phoneNumber)
   {

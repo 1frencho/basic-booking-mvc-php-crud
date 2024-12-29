@@ -7,15 +7,16 @@ $navbarItems = [
 
 // Links para administradores
 $adminNavbarItems = [
-  'roomsManager' => 'Manage Rooms',
-  'usersManager' => 'Manage Users',
-  'bookingsManager' => 'Manage Bookings',
+  'rooms' => 'Available rooms',
+  'adminRoomManager' => 'Manage Rooms',
+  'adminUsersManager' => 'Manage Users',
+  'adminBookingsManager' => 'Manage Bookings',
 ];
 
 // Links para usuarios autenticados
 $userNavbarItems = [
+  'rooms' => 'Available rooms',
   'myBookings' => 'My Bookings',
-  'profile' => 'Profile',
 ];
 
 // Links para la derecha (para usuarios no autenticados)
@@ -26,7 +27,7 @@ $navbarRightItems = [
 
 // Links para el menú de cuenta (usuario logueado)
 $accountItems = [
-  'rooms' => 'Available rooms',
+  'myBookings' => 'My Bookings',
   'signOut' => 'Sign Out',
 ];
 
@@ -72,7 +73,8 @@ $userRole = $user['role'] ?? null;
       <!-- Navbar Links -->
       <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
         <div class="flex shrink-0 items-center">
-          <i class="lni lni-home-2 text-2xl text-sky-400"></i>
+          <a href=""> <i class="lni lni-home-2 text-2xl text-sky-400"></i>
+          </a>
         </div>
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex space-x-4">

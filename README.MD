@@ -4,6 +4,14 @@
 
 Este proyecto es una aplicación web que permite a los usuarios crear, leer, actualizar y eliminar datos de un CRUD (Crear, Leer, Actualizar y Eliminar) en una base de datos MySQL.
 
+---
+
+- Es un proyecto simple de CRUD de práctica por lo que se podrían implementar más funcionalidades de seguridad y funcionalidades de acorde a un proyecto completo de reservación de alojamientos.
+
+Indicaciones asignadas: notes.txt
+
+---
+
 ### Requisitos de tarea
 
 - Landing Page de Alojamientos

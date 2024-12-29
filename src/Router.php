@@ -81,12 +81,20 @@ class Router
     }
 
     // Ejecutar middlewares
-    foreach ($middleware as $middlewareClass) {
+    foreach ($middleware as $middlewareDefinition) {
+      [$middlewareClass, $middlewareMethod] = $middlewareDefinition;
       $middlewareInstance = new $middlewareClass();
-      if (!$middlewareInstance->handle()) {
-        return;
+
+      if (method_exists($middlewareInstance, $middlewareMethod)) {
+        if (!$middlewareInstance->$middlewareMethod()) {
+          echo "Unauthorized";
+          return;
+        }
+      } else {
+        throw new \Exception("Middleware method {$middlewareMethod} does not exist in {$middlewareClass}");
       }
     }
+
 
     // Ejecutar controlador o callback
     if (is_array($callback)) {

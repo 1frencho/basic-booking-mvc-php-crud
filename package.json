@@ -4,7 +4,7 @@
   "description": "Este proyecto es una aplicación web que permite a los usuarios crear, leer, actualizar y eliminar datos de un CRUD (Crear, Leer, Actualizar y Eliminar) en una base de datos MySQL.",
   "main": "index.js",
   "scripts": {
-    "tailwind": "npx tailwindcss -i ./src/styles/global.css -o ./public/assets/css/output.css --watch"
+    "tailwind": "npx tailwindcss -i ./src/styles/global.css -o ./public/assets/css/output.css --watch --minify"
   },
   "keywords": [],
   "author": "",
