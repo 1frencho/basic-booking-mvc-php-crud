@@ -16,6 +16,7 @@ class User
     $query = "SELECT ad.id,
     ad.email,
     ad.role,
+    ad.password,
     ad.created_at,
     ud.first_name,
     ud.last_name,
@@ -38,8 +39,7 @@ class User
     $query = "INSERT INTO " . self::$table . " (email, password, role, created_at) VALUES (:email, :password, :role, NOW())";
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':email', $email);
-    $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-    $stmt->bindParam(':password', $hashedPassword);
+    $stmt->bindParam(':password', $password);
     $stmt->bindParam(':role', self::$defaultRole);
     $stmt->execute();
     $userId = $conn->lastInsertId();
@@ -56,5 +56,16 @@ class User
     $stmt->execute();
 
     return $userId;
+  }
+
+  public static function checkEmail($email)
+  {
+    $conn = DBConnection::connect();
+    $query = "SELECT email FROM " . self::$table . " WHERE email = :email LIMIT 1";
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(':email', $email);
+    $stmt->execute();
+    $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+    return $result;
   }
 }

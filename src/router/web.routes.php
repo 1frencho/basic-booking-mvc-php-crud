@@ -14,7 +14,6 @@ $dotenv->load();
 
 $router = new Router();
 
-
 // ---------------------------- VIEWS ------------------------------------------
 $router->get('/', [HomeController::class, 'index']);
 $router->get('/signIn', [AuthController::class, 'showSignIn']);
@@ -23,6 +22,7 @@ $router->get('/dashboard', [HomeController::class, 'dashboard'], [AuthMiddleware
 
 // ---------------------------- REQUESTS --------------------------------------
 $router->post('/signUp', [AuthController::class, 'handleSignUp']);
-
+$router->post('/signIn', [AuthController::class, 'handleSignIn']);
+$router->get('/signOut', [AuthController::class, 'signOut']);
 
 $router->resolve();

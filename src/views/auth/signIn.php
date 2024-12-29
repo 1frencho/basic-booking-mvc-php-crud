@@ -1,12 +1,17 @@
-<div class="flex min-h-[500px] h-[85vh] flex-col justify-center px-6 lg:px-8">
-	<div class="sm:mx-auto sm:w-full sm:max-w-sm">
-		<!-- <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=sky&shade=600"
-			alt="Your Company"> -->
-		<h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Sign in to your account</h2>
-	</div>
+<?php
+$breadTitle = 'Sign in';
+$breadDesc = 'Sign in to your account';
+require __DIR__ . '/../../components/BreadCrumb.php'; ?>
 
-	<div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-		<form class="space-y-6" action="#" method="POST">
+<script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js"></script>
+<section class="flex flex-col justify-center px-6 lg:px-8 items-center mt-4">
+	<div class="md:flex-row  bg-white p-4 shadow-md flex flex-col items-center justify-center gap-4 rounded-xl ">
+		<form class="space-y-6 w-[80vw] md:w-1/2" action="signIn" method="POST">
+			<h2 class="text-center text-2xl/9 font-bold tracking-tight text-gray-900 ">Sign in to your account</h2>
+			<?php
+			require __DIR__ . '/../../components/WarningAlert.php';
+			require __DIR__ . '/../../components/SuccessAlert.php';
+			?>
 			<div>
 				<label for="email" class="block text-sm/6 font-medium text-gray-900">Email address</label>
 				<div class="mt-2">
@@ -33,11 +38,75 @@
 					class="flex w-full justify-center rounded-md duration-300 bg-sky-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">Sign
 					in</button>
 			</div>
+			<p class="mt-10 text-center text-sm/6 text-gray-500">
+				Not a member?
+				<a href="signUp" class="font-semibold text-sky-600 hover:text-sky-500">Create a free account</a>
+			</p>
 		</form>
 
-		<p class="mt-10 text-center text-sm/6 text-gray-500">
-			Not a member?
-			<a href="signUp" class="font-semibold text-sky-600 hover:text-sky-500">Create a free account</a>
-		</p>
+		<img src="assets/images/2.webp" alt="hotel2" width="380px" height="700px"
+			class="md:w-1/2 w-full rounded-lg object-cover md:h-[500px]" />
 	</div>
-</div>
+	<div>
+
+	</div>
+
+</section>
+
+
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		const validation = new JustValidate('form', {
+			errorFieldCssClass: 'is-invalid',
+			errorLabelCssClass: 'text-red-600 text-sm mt-1 fade-in', // Clase CSS para animación
+			focusInvalidField: true, // Hace que el campo inválido reciba el foco
+		});
+
+		// Configuración de las reglas de validación
+		const fields = [{
+				id: '#email',
+				rules: [{
+						rule: 'required',
+						errorMessage: 'Email is required'
+					},
+					{
+						rule: 'email',
+						errorMessage: 'Invalid email address'
+					},
+				],
+			},
+			{
+				id: '#password',
+				rules: [{
+						rule: 'required',
+						errorMessage: 'Password is required'
+					},
+					{
+						rule: 'minLength',
+						value: 6,
+						errorMessage: 'At least 6 characters'
+					},
+				],
+			},
+		];
+
+		// Agregar validaciones dinámicamente con un bucle
+		fields.forEach(field => {
+			validation.addField(field.id, field.rules);
+		});
+
+		// Manejar envío exitoso
+		validation.onSuccess((event) => {
+			console.log('Formulario válido, se envía');
+			event.target.submit(); // Enviar formulario
+		});
+
+		// Manejar envío fallido
+		validation.onFail(() => {
+			console.log('Formulario no válido, no se envía');
+		});
+
+
+
+	});
+</script>

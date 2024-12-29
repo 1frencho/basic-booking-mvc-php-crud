@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?= $title ?? 'Mi Aplicación' ?></title>
+  <title><?= $title ?? 'Página no encontrada' ?></title>
   <?= $meta ?? '' ?>
   <?= $styles ?? '' ?>
   <link href="https://cdn.lineicons.com/5.0/lineicons.css" rel="stylesheet" />
@@ -38,7 +38,7 @@
 
   <script>
     // Transición al cargar la página
-    document.addEventListener('DOMContentLoaded', () => {
+    document?.addEventListener('DOMContentLoaded', () => {
       const main = document.querySelector('main');
       main.classList.add('loaded');
 
@@ -58,6 +58,9 @@
           }, 300); // Duración de la transición
         });
       });
+
+      console.log(<?php echo isset($_SESSION['user']) ? json_encode($_SESSION['user']) : 'null'; ?>);
+
     });
   </script>
 </body>

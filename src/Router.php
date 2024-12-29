@@ -68,6 +68,7 @@ class Router
         // Generar contenido desde la vista
         ob_start();
         require $viewPath;
+
         $content = ob_get_clean();
 
         // Incluir el layout principal
