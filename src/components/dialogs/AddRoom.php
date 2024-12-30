@@ -19,7 +19,7 @@
           <img src="assets/images/sky.webp" alt="Room Image" class="w-full rounded-xl h-full object-cover"
             id="roomImage" style="height: 100%;">
         </div>
-        <div class="w-full md:w-1/2 h-full flex flex-col gap-4">
+        <div class="w-full md:w-1/2 h-full flex flex-col ">
           <form id="addRoomForm" method="POST" action="addRoom">
             <input type="hidden" id="roomId" name="id"> <!-- Campo oculto para el ID -->
             <div class="mb-3">
@@ -47,6 +47,10 @@
             </div>
             <button type="submit" class="myPrimaryBtn ">Save</button>
           </form>
+          <form class="hidden mt-3" action="removeRoom" method="POST" id="removeRoomForm">
+            <input type="hidden" name="room_id" id="removeRoomId">
+            <button type="submit" class="btn btn-danger">Remove Room</button>
+          </form>
         </div>
       </div>
     </div>
@@ -65,6 +69,7 @@
     const modal = document.getElementById('addRoomModal');
     const modalLabel = document.getElementById('addRoomModalLabel');
     const roomIdField = document.getElementById('roomId');
+    const removeRoomIdField = document.getElementById('removeRoomId');
 
     // Configuración de JustValidate
     const validation = new JustValidate('#addRoomForm', {
@@ -127,6 +132,7 @@
       form.setAttribute('action', 'addRoom'); // Cambiar el action al endpoint de creación
       roomIdField.value = ''; // Asegurar que el ID esté vacío
       form.reset(); // Limpiar el formulario
+      document.getElementById('removeRoomForm').classList.add('hidden'); // Ocultar el botón de eliminación
     });
 
     // Detectar clic en botones de edición
@@ -138,6 +144,7 @@
         const imageUrl = e.target.getAttribute('data-image_url');
         const pricePerNight = e.target.getAttribute('data-price_per_night');
         const roomStatus = e.target.getAttribute('data-room_status');
+        const removeForm = document.getElementById('removeRoomForm');
 
         // Rellenar los campos del formulario
         roomIdField.value = id;
@@ -147,10 +154,14 @@
         document.getElementById('pricePerNight').value = pricePerNight;
         document.getElementById('roomStatus').value = roomStatus;
         document.getElementById('roomImage').src = imageUrl;
+        removeRoomIdField.value = id;
 
         // Cambiar el título y el action al endpoint de actualización
         modalLabel.textContent = `Edit Room (ID: ${id})`;
         form.setAttribute('action', `updateRoom`);
+
+        // Mostrar el botón de eliminación
+        document.getElementById('removeRoomForm').classList.remove('hidden');
       }
     });
 

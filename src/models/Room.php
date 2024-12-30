@@ -53,6 +53,7 @@ class Room
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':id', $id);
     $stmt->execute();
+    return $stmt->rowCount();
   }
 
   public static function getById($id)
@@ -79,5 +80,6 @@ class Room
     $stmt->bindParam(':price_per_night', $price_per_night);
     $stmt->bindParam(':id', $id);
     $stmt->execute();
+    return $stmt->rowCount();
   }
 }

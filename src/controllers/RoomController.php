@@ -28,7 +28,10 @@ class RoomController extends BaseController
       'meta' => '<meta name="description" content="Manage rooms">',
       // 'styles' => '<link rel="stylesheet" href="styles/roomManager.css">',
       // 'scripts' => '<script src="scripts/roomManager.js"></script>',
+      'error' => $_SESSION['error'] ?? '', // Recuperar error de la sesión,
+      'successMessage' => $_SESSION['successMessage'] ?? '', // Recuperar mensaje de la sesión,
     ];
+    unset($_SESSION['successMessage'], $_SESSION['error']); // Limpiar mensaje después de cargarlo
     $this->render('admin/roomsManager', $layoutData);
   }
 
@@ -101,13 +104,43 @@ class RoomController extends BaseController
         header('Location: adminRoomManager');
         exit;
       }
-      $roomId = Room::update($_POST['id'], $name, $description, $image_url, $room_status, $price_per_night);
-      if (!$roomId) {
+      $rowAffected = Room::update($_POST['id'], $name, $description, $image_url, $room_status, $price_per_night);
+      if (!$rowAffected) {
         $_SESSION['error'] = 'Error updating room.';
         header('Location: adminRoomManager');
         exit;
       }
       $_SESSION['successMessage'] = 'Room successfully updated.';
+      header('Location: adminRoomManager');
+    } catch (\Throwable $th) {
+      throw $th->getMessage();
+    }
+    exit;
+  }
+
+  public function handleRemoveRoom()
+  {
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+      header('Location: adminRoomManager');
+      exit;
+    }
+
+    $roomId = htmlspecialchars(trim($_POST['room_id']));
+
+    if (empty($roomId)) {
+      $_SESSION['error'] = 'Room ID is required.';
+      header('Location: adminRoomManager');
+      exit;
+    }
+
+    try {
+      $removed = Room::remove($roomId);
+      if (!$removed) {
+        $_SESSION['error'] = 'Error removing room.';
+        header('Location: adminRoomManager');
+        exit;
+      }
+      $_SESSION['successMessage'] = 'Room successfully removed.';
       header('Location: adminRoomManager');
     } catch (\Throwable $th) {
       throw $th->getMessage();

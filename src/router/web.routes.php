@@ -38,6 +38,7 @@ $router->get('signOut', [AuthController::class, 'signOut']);
 
 $router->post('addRoom', [RoomController::class, 'addRoom'], [[AuthMiddleware::class, 'handleAdmin']]);
 $router->post('updateRoom', [RoomController::class, 'updateRoom'], [[AuthMiddleware::class, 'handleAdmin']]); // PATCH
+$router->post('removeRoom', [RoomController::class, 'handleRemoveRoom'], [[AuthMiddleware::class, 'handleAdmin']]);
 
 $router->post('createBooking', [BookingController::class, 'handleCreateBooking'], [[AuthMiddleware::class, 'handleAuthenticated']]);
 $router->post('updateBookingStatusAdmin', [BookingController::class, 'handleUpdateBookingStatusAdmin'], [[AuthMiddleware::class, 'handleAdmin']]);
