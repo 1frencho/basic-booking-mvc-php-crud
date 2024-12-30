@@ -22,10 +22,9 @@ require __DIR__ . '/../../components/BreadCrumb.php';
 
 <section class="flex flex-col p-4 md:p-8 gap-4 w-full">
   <?php
-  require __DIR__ . '/dialogs/AddRoom.php';
+  require __DIR__ . '/../../components/dialogs/AddRoom.php';
   require __DIR__ . '/../../components/WarningAlert.php';
   require __DIR__ . '/../../components/SuccessAlert.php';
-
   ?>
   <!-- Contenedor para AG Grid -->
   <div id="roomGrid" class="ag-theme-material"></div>
@@ -102,6 +101,7 @@ require __DIR__ . '/../../components/BreadCrumb.php';
     },
     pagination: true,
     paginationPageSize: 10,
+    paginationPageSizeSelector: [5, 10, 20, 50, 100],
     onGridReady: function(params) {
       fetch("api/rooms")
         .then(response => response.json())

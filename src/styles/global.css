@@ -2,36 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Botón primario */
 .myPrimaryBtn {
   @apply rounded-md bg-sky-600 px-3 py-2 text-sm font-medium text-white duration-200 hover:bg-sky-700 hover:text-white focus:ring-4 focus:ring-sky-300;
 }
 
-@keyframes slide-in {
+a {
+  @apply no-underline;
+}
+
+/* Animaciones de Fade */
+@keyframes fade-in {
   from {
     opacity: 0;
-    transform: translateY(-20%);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
-@keyframes slide-out {
+@keyframes fade-out {
   from {
     opacity: 1;
-    transform: translateY(0);
   }
   to {
     opacity: 0;
-    transform: translateY(-20%);
   }
 }
 
-.animate-slide-in {
-  animation: slide-in 0.3s ease-out forwards;
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
 }
 
-.animate-slide-out {
-  animation: slide-out 0.3s ease-in forwards;
+.animate-fade-out {
+  animation: fade-out 0.3s ease-in forwards;
 }

@@ -37,7 +37,12 @@ $router->post('signIn', [AuthController::class, 'handleSignIn']);
 $router->get('signOut', [AuthController::class, 'signOut']);
 
 $router->post('addRoom', [RoomController::class, 'addRoom'], [[AuthMiddleware::class, 'handleAdmin']]);
-$router->post('updateRoom', [RoomController::class, 'updateRoom'], [[AuthMiddleware::class, 'handleAdmin']]);
+$router->post('updateRoom', [RoomController::class, 'updateRoom'], [[AuthMiddleware::class, 'handleAdmin']]); // PATCH
+
+$router->post('createBooking', [BookingController::class, 'handleCreateBooking'], [[AuthMiddleware::class, 'handleAuthenticated']]);
+$router->post('updateBookingStatusAdmin', [BookingController::class, 'handleUpdateBookingStatusAdmin'], [[AuthMiddleware::class, 'handleAdmin']]);
+$router->post('updateBookingStatusClient', [BookingController::class, 'handleUpdateBookingStatusClient'], [[AuthMiddleware::class, 'handleAuthenticated']]);
+$router->post('removeBookingClient', [BookingController::class, 'handleRemoveBookingClient'], [[AuthMiddleware::class, 'handleAuthenticated']]);
 
 
 // ---------------------------- API PÚBLICA - OPCIONAL -----------------------------------

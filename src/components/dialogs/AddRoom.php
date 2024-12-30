@@ -8,40 +8,46 @@
 
 <!-- Modal -->
 <div class="modal fade" id="addRoomModal" tabindex="-1" aria-labelledby="addRoomModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="addRoomModalLabel">Handle Room</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        <form id="addRoomForm" method="POST" action="addRoom">
-          <input type="hidden" id="roomId" name="id"> <!-- Campo oculto para el ID -->
-          <div class="mb-3">
-            <label for="roomName" class="form-label">Room Name</label>
-            <input type="text" id="roomName" name="name" class="form-control" required>
-          </div>
-          <div class="mb-3">
-            <label for="roomDescription" class="form-label">Description</label>
-            <textarea id="roomDescription" name="description" class="form-control" required></textarea>
-          </div>
-          <div class="mb-3">
-            <label for="roomImageUrl" class="form-label">Image URL</label>
-            <input type="url" id="roomImageUrl" name="image_url" class="form-control" required>
-          </div>
-          <div class="mb-3">
-            <label for="pricePerNight" class="form-label">Price per Night</label>
-            <input type="number" id="pricePerNight" name="price_per_night" class="form-control" required>
-          </div>
-          <div class="mb-3">
-            <label for="roomStatus" class="form-label">Room Status</label>
-            <select id="roomStatus" name="room_status" class="form-select" required>
-              <option value="public">Public</option>
-              <option value="hidden">Hidden</option>
-            </select>
-          </div>
-          <button type="submit" class="myPrimaryBtn w-100">Save</button>
-        </form>
+      <div class="modal-body flex md:flex-row h-full flex-col gap-4">
+        <div class="w-full md:w-1/2 min-h-full flex flex-col gap-4">
+          <img src="assets/images/sky.webp" alt="Room Image" class="w-full rounded-xl h-full object-cover"
+            id="roomImage" style="height: 100%;">
+        </div>
+        <div class="w-full md:w-1/2 h-full flex flex-col gap-4">
+          <form id="addRoomForm" method="POST" action="addRoom">
+            <input type="hidden" id="roomId" name="id"> <!-- Campo oculto para el ID -->
+            <div class="mb-3">
+              <label for="roomName" class="form-label">Room Name</label>
+              <input type="text" id="roomName" name="name" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="roomDescription" class="form-label">Description</label>
+              <textarea id="roomDescription" name="description" class="form-control" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="roomImageUrl" class="form-label">Image URL</label>
+              <input type="url" id="roomImageUrl" name="image_url" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="pricePerNight" class="form-label">Price per Night</label>
+              <input type="number" id="pricePerNight" name="price_per_night" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="roomStatus" class="form-label">Room Status</label>
+              <select id="roomStatus" name="room_status" class="form-select" required>
+                <option value="public">Public</option>
+                <option value="hidden">Hidden</option>
+              </select>
+            </div>
+            <button type="submit" class="myPrimaryBtn ">Save</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
@@ -140,6 +146,7 @@
         document.getElementById('roomImageUrl').value = imageUrl;
         document.getElementById('pricePerNight').value = pricePerNight;
         document.getElementById('roomStatus').value = roomStatus;
+        document.getElementById('roomImage').src = imageUrl;
 
         // Cambiar el título y el action al endpoint de actualización
         modalLabel.textContent = `Edit Room (ID: ${id})`;
@@ -153,6 +160,7 @@
       form.setAttribute('action', 'addRoom'); // Restablecer el action al endpoint de creación
       modalLabel.textContent = 'Handle Room'; // Restablecer el título del modal
       roomIdField.value = ''; // Asegurar que el ID esté vacío
+      document.getElementById('roomImage').src = 'assets/images/sky.webp';
     });
   });
 </script>

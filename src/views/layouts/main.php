@@ -40,17 +40,17 @@
     // Transición al cargar la página
     document?.addEventListener('DOMContentLoaded', () => {
       const main = document.querySelector('main');
-      main.classList.add('loaded');
+      main?.classList?.add('loaded');
 
       // Transición al hacer clic en enlaces
-      const links = document.querySelectorAll('a[href]');
+      const links = document?.querySelectorAll('a[href]');
       links.forEach(link => {
         link.addEventListener('click', (event) => {
           event.preventDefault();
           const href = link.getAttribute('href');
 
           // Inicia la animación de salida
-          main.classList.remove('loaded');
+          main?.classList?.remove('loaded');
 
           // Navega a la nueva página después de la animación
           setTimeout(() => {
@@ -59,7 +59,9 @@
         });
       });
 
-      console.log(<?php echo isset($_SESSION['user']) ? json_encode($_SESSION['user']) : 'null'; ?>);
+      console.log({
+        session: <?php echo isset($_SESSION['user']) ? json_encode($_SESSION['user']) : 'null'; ?>
+      });
 
     });
   </script>

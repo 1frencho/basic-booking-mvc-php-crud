@@ -21,7 +21,7 @@
             clip-rule="evenodd"></path>
         </svg>
       </a>
-      <a href="https://github.com/1frencho/basic-booking-mvc-php-crud"
+      <a href="https://github.com/1frencho/basic-booking-mvc-php-crud" target="_blank"
         class="inline-flex duration-200 items-center justify-center px-5 py-3 text-base font-medium text-center text-sky-700 border border-sky-300 rounded-lg hover:bg-sky-100 focus:ring-4 focus:ring-sky-200 ">
         GitHub Repository
       </a>

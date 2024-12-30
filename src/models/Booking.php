@@ -121,13 +121,49 @@ class Booking
     $stmt->execute();
     return $conn->lastInsertId();
   }
-
-  public static function remove($id)
+  public static function updateAdminStatus($id, $status)
   {
     $conn = DBConnection::connect();
-    $query = "DELETE FROM " . self::$table . " WHERE id = :id";
+    $query = "UPDATE " . self::$table . " SET status = :status WHERE id = :id";
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':id', $id);
+    $stmt->bindParam(':status', $status);
     $stmt->execute();
+    return $stmt->rowCount();
+  }
+
+  public static function updateClientStatus($id, $status, $idUser)
+  {
+    $conn = DBConnection::connect();
+    $query = "UPDATE " . self::$table . " SET status = :status WHERE id = :id AND id_user = :idUser";
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(':id', $id);
+    $stmt->bindParam(':status', $status);
+    $stmt->bindParam(':idUser', $idUser);
+    $stmt->execute();
+    return $stmt->rowCount();
+  }
+
+  public static function removeForClient($id, $idUser)
+  {
+    $conn = DBConnection::connect();
+    $query = "DELETE FROM " . self::$table . " WHERE id = :id AND id_user = :idUser";
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(':id', $id);
+    $stmt->bindParam(':idUser', $idUser);
+    $stmt->execute();
+    return $stmt->rowCount();
+  }
+
+  public static function remove($id, $idUser)
+  {
+    // Sería mejor actualizar solo el estado de la reserva...
+    $conn = DBConnection::connect();
+    $query = "DELETE FROM " . self::$table . " WHERE id = :id AND id_user = :idUser";
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(':id', $id);
+    $stmt->bindParam(':idUser', $idUser);
+    $stmt->execute();
+    return $stmt->rowCount();
   }
 }

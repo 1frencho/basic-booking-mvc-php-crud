@@ -20,8 +20,18 @@ require __DIR__ . '/../../components/BreadCrumb.php';
   }
 </style>
 
-<!-- Contenedor para AG Grid -->
-<div id="bookingGrid" class="ag-theme-material"></div>
+<section class="flex flex-col p-4 md:p-8 gap-4 w-full">
+
+  <?php
+  require __DIR__ . '/../../components/dialogs/EditBookingStatus.php';
+  require __DIR__ . '/../../components/WarningAlert.php';
+  require __DIR__ . '/../../components/SuccessAlert.php'
+
+  ?>
+  <!-- Contenedor para AG Grid -->
+  <div id="bookingGrid" class="ag-theme-material"></div>
+  </div>
+</section>
 
 <!-- AG Grid JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
@@ -47,12 +57,8 @@ require __DIR__ . '/../../components/BreadCrumb.php';
         sortable: true,
         filter: true
       },
-      {
-        field: "booking_status",
-        headerName: "Status",
-        sortable: true,
-        filter: true
-      },
+
+
       {
         field: "user_email",
         headerName: "User Email",
@@ -84,12 +90,26 @@ require __DIR__ . '/../../components/BreadCrumb.php';
         filter: true
       },
       {
-        field: "room_status",
-        headerName: "Room Status",
+        field: "booking_status",
+        headerName: "Status",
+        sortable: true,
+        filter: true
+      },
+      {
+        field: "booking_status",
+        headerName: "Actions",
         sortable: true,
         filter: true,
-        cellRenderer: params => params.value === 'public' ? '✅ Public' : '❌ Hidden'
+        cellRenderer: params => `
+            <button class="myPrimaryBtn edit-status-btn" 
+                data-id="${params.data.booking_id}" 
+                data-status="${params.value}"
+                data-bs-toggle="modal" 
+                data-bs-target="#editStatusModal">
+                Edit
+            </button>`
       }
+
     ],
     defaultColDef: {
       flex: 1, // Columnas responsivas
@@ -100,6 +120,7 @@ require __DIR__ . '/../../components/BreadCrumb.php';
     },
     pagination: true, // Activar paginación
     paginationPageSize: 10, // Tamaño de página por defecto
+    paginationPageSizeSelector: [5, 10, 20, 50, 100],
     onGridReady: function(params) {
       // Cargar datos desde la API cuando la cuadrícula esté lista
       console.log("Grid is ready");

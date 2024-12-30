@@ -81,6 +81,8 @@ require __DIR__ . '/../../components/BreadCrumb.php';
     },
     pagination: true, // Activar paginación
     paginationPageSize: 10, // Tamaño de página por defecto
+    paginationPageSizeSelector: [5, 10, 20, 50, 100],
+
     onGridReady: function(params) {
       // Cargar datos desde la API cuando la cuadrícula esté lista
       console.log("Grid is ready");

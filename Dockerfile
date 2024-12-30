@@ -1,39 +1,35 @@
-FROM php:8.2-apache
+# Usar la imagen base de PHP con Apache
+FROM php:8.1-apache
 
-# Habilitar mod_rewrite
-RUN a2enmod rewrite
-
-# Instalar herramientas necesarias para extensiones de PHP
+# Instalar extensiones necesarias y Composer
 RUN apt-get update && apt-get install -y \
-    libonig-dev \
-    libzip-dev \
-    zip \
-    libicu-dev \
-    && docker-php-ext-install pdo pdo_mysql mbstring
+    zip unzip curl git libpq-dev libonig-dev libxml2-dev && \
+    docker-php-ext-install mysqli pdo pdo_mysql && \
+    a2enmod rewrite
 
 # Instalar Composer
-COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Copiar el contenido del proyecto al contenedor
+# Configurar el directorio de trabajo
+WORKDIR /var/www/html
+
+# Copiar los archivos del proyecto al contenedor
 COPY . /var/www/html
 
-# Configurar Composer
-WORKDIR /var/www/html
-RUN composer install --no-dev --optimize-autoloader --verbose
-RUN composer dump-autoload --optimize
-RUN composer clear-cache
+# Configurar permisos y habilitar .htaccess
+RUN chown -R www-data:www-data /var/www/html && \
+    chmod -R 755 /var/www/html && \
+    echo '<Directory /var/www/html>\n\
+        Options Indexes FollowSymLinks\n\
+        AllowOverride All\n\
+        Require all granted\n\
+    </Directory>' >> /etc/apache2/apache2.conf
 
-# Configurar Apache
-RUN echo "<Directory /var/www/html>\n\
-    AllowOverride All\n\
-    </Directory>" >> /etc/apache2/apache2.conf
+# Instalar dependencias de Composer en modo optimizado
+RUN composer install --no-dev --optimize-autoloader
 
-# Configuración de PHP para depuración
-RUN echo "display_errors=On\n\
-    error_reporting=E_ALL\n\
-    log_errors=On\n\
-    error_log=/var/log/php_errors.log" >> /usr/local/etc/php/php.ini
+# Exponer el puerto 80
+EXPOSE 80
 
-# Establecer permisos
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 /var/www/html
+# Comando de inicio
+CMD ["apache2-foreground"]

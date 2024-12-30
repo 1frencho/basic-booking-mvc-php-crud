@@ -11,9 +11,12 @@ class RoomController extends BaseController
     $layoutData = [
       'title' => 'Public Rooms',
       'meta' => '<meta name="description" content="Public rooms">',
+      'error' => $_SESSION['error'] ?? '', // Recuperar error de la sesión,
+      'successMessage' => $_SESSION['successMessage'] ?? '', // Recuperar mensaje de la sesión,
       // 'styles' => '<link rel="stylesheet" href="styles/publicRooms.css">',
       // 'scripts' => '<script src="scripts/publicRooms.js"></script>',
     ];
+    unset($_SESSION['successMessage'], $_SESSION['error']); // Limpiar mensaje después de cargarlo
     $this->render('home/rooms', $layoutData);
   }
 
