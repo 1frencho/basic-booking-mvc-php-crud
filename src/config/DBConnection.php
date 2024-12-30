@@ -2,7 +2,6 @@
 
 namespace App\Config;
 
-use Dotenv\Dotenv;
 use PDO;
 use PDOException;
 
@@ -12,10 +11,6 @@ class DBConnection
   public static function connect()
   {
     try {
-      // Cargar las variables de entorno
-      $dotenv = Dotenv::createImmutable(__DIR__ . '/../..');
-      $dotenv->load();
-
       // Obtener las credenciales de las variables de entorno
       $dsn = 'mysql:host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_NAME'] . ';charset=utf8';
       $user = $_ENV['DB_USER'];

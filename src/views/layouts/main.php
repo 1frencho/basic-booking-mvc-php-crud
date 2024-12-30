@@ -9,7 +9,7 @@
   <?= $styles ?? '' ?>
   <link href="https://cdn.lineicons.com/5.0/lineicons.css" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/output.css" />
-  <base href="/booking-crud-php/public/">
+  <base href="<?php echo $_ENV['BASE_PATH'] ?? '/public/' ?>">
   <style>
     /* Transición para el fade */
     main {

@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Dotenv\Dotenv;
 
 class Router
 {
@@ -12,12 +11,9 @@ class Router
 
   public function __construct()
   {
-    // Cargar variables de entorno
-    $dotenv = Dotenv::createImmutable(__DIR__ . '/..');
-    $dotenv->load();
 
     // Detectar el subdirectorio base desde las variables de entorno
-    $this->basePath = $_ENV['BASE_PATH'] ?? '/';
+    $this->basePath = $_ENV['BASE_PATH'] ?? '/public/';
   }
 
   public function get($path, $callback, $middleware = [])

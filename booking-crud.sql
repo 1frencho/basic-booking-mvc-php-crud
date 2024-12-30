@@ -31,12 +31,12 @@ USE `booking-crud`;
 
 CREATE TABLE IF NOT EXISTS `account_details` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) COLLATE utf8mb3_spanish_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb3_spanish_ci NOT NULL,
-  `role` enum('Admin','User') COLLATE utf8mb3_spanish_ci NOT NULL DEFAULT 'User',
+  `email` varchar(255) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `role` enum('Admin','User') COLLATE utf8mb4_spanish_ci NOT NULL DEFAULT 'User',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -50,12 +50,12 @@ CREATE TABLE IF NOT EXISTS `bookings` (
   `id_room` int NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
-  `status` enum('pending','cancelled','approved','ended') COLLATE utf8mb3_spanish_ci NOT NULL,
+  `status` enum('pending','cancelled','approved','ended') COLLATE utf8mb4_spanish_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `id_user` (`id_user`),
   KEY `id_room` (`id_room`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -65,16 +65,16 @@ CREATE TABLE IF NOT EXISTS `bookings` (
 
 CREATE TABLE IF NOT EXISTS `rooms` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(30) COLLATE utf8mb3_spanish_ci NOT NULL,
-  `description` varchar(300) COLLATE utf8mb3_spanish_ci NOT NULL,
-  `image_url` varchar(255) COLLATE utf8mb3_spanish_ci NOT NULL,
-  `room_status` enum('hidden','public') COLLATE utf8mb3_spanish_ci NOT NULL DEFAULT 'hidden',
+  `name` varchar(30) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `description` varchar(300) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `image_url` varchar(255) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `room_status` enum('hidden','public') COLLATE utf8mb4_spanish_ci NOT NULL DEFAULT 'hidden',
   `price_per_night` decimal(10,0) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `id_admin_creator` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_admin_creator` (`id_admin_creator`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -84,13 +84,13 @@ CREATE TABLE IF NOT EXISTS `rooms` (
 
 CREATE TABLE IF NOT EXISTS `user_details` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(30) COLLATE utf8mb3_spanish_ci DEFAULT NULL,
-  `last_name` varchar(30) COLLATE utf8mb3_spanish_ci DEFAULT NULL,
-  `phone_number` varchar(15) COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `first_name` varchar(30) COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  `last_name` varchar(30) COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  `phone_number` varchar(15) COLLATE utf8mb4_spanish_ci DEFAULT NULL,
   `id_user` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_user` (`id_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
 -- Constraints for dumped tables

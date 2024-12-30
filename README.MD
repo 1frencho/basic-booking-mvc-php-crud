@@ -54,12 +54,6 @@ npm install
 http://localhost/booking-crud-php/public/
 ```
 
-Si se utiliza php directamente se puede probar con el siguiente comando:
-
-```
-php -S localhost:8000 -t public/
-```
-
 6. Habilitar Tailwind CSS en modo de desarrollo
 
 ```
