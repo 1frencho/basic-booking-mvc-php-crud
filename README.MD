@@ -1,7 +1,7 @@
 ## Booking CRUD - PHP
 
-<img src="./images/1.png" alt="Rooms" width="100%">
-Tarea asignada de Kodigo Academy.
+<img src="./images/rooms/1.png" alt="Rooms" width="100%">
+Tarea asignada en Kodigo Academy.
 
 ### Descripción
 
