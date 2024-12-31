@@ -61,8 +61,9 @@ $userRole = $user['role'] ?? null;
 
     <!-- Desktop Navbar -->
     <div class="flex flex-1 items-center justify-between sm:justify-start gap-6">
-      <a href="#" class="flex items-center text-sky-400 text-2xl no-underline">
-        <i class="lni lni-home-2"></i>
+      <a href="#" class="flex items-center text-sky-400 text-2xl no-underline gap-4">
+        <img src="assets/images/logo.webp" alt="Logo" class="h-8 w-auto rounded-full" />
+
       </a>
       <div class="hidden sm:flex space-x-4">
         <?php

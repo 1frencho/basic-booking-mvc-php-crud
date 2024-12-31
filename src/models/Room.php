@@ -7,7 +7,6 @@ use App\Config\DBConnection;
 class Room
 {
   private static $table = 'rooms';
-  private static $defaultStatus = 'hidden';
 
   public static function getAll()
   {
@@ -25,6 +24,17 @@ class Room
     $conn = DBConnection::connect();
 
     $query = "SELECT * FROM " . self::$table . " WHERE room_status = 'public'";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+  }
+
+  public static function getLastRoomsPosted()
+  {
+    $conn = DBConnection::connect();
+
+    $query = "SELECT * FROM " . self::$table . " ORDER BY created_at DESC LIMIT 8";
     $stmt = $conn->prepare($query);
     $stmt->execute();
 

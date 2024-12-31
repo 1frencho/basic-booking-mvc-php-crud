@@ -30,9 +30,7 @@
     <?= $content ?? '<p>No hay contenido disponible.</p>' ?>
   </main>
 
-  <footer>
-    <p>&copy; <?= date('Y') ?> Mi Aplicación</p>
-  </footer>
+  <?php require __DIR__ . '/footer.php'; ?>
 
   <?= $scripts ?? '' ?>
 
